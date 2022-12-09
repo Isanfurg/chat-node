@@ -6,6 +6,7 @@ import cors from 'cors';
 import mariadb from 'mariadb';
 
 import {PORT} from './config.js';
+import { time } from 'console';
 
 async function asyncConnection() {
        
@@ -23,20 +24,27 @@ async function getProducts(){
     delete res.meta;
     return res;
 }
+async function saveConnection(userName){
+    let res = await conn.query(
+        "INSERT INTO connected (username,date) VALUES ('"+userName+"','"+ (new Date).toString().slice(0,24) +"');"
+    )
+}
 const conn = await asyncConnection();
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server,{
     cors:{
-        origin: 'http://localhost:3000'
+        origin: '*'
     }
 });
 
-io.on('connection',async (socket)=>{
-        var data = await getProducts();
-        console.log(data);
-        socket.on('message', (data) => {
-            console.log(socket.id,data);
+io.on('connection',(socket)=>{
+        
+        socket.on('message', async (data) => {
+            await saveConnection(data);
+            var res = await getProducts();
+            socket.emit(res);
+            console.log(socket.id,res);
         })
     }
 )

@@ -1,17 +1,32 @@
 import './css/App.css';
 import io from 'socket.io-client';
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import logo from './img/logo.png'; // with import
 const socket = io('http://localhost:4000');
 
 function App() {
   const [message, setMessage] = useState('')
+  const [messages, setMessages] = useState([]);
 
+  
+  useEffect(() => {
+    const receiveMessage = (message) => {
+      setMessages([message, ...messages]);
+    };
+
+    socket.on("message", receiveMessage);
+
+    return () => {
+      socket.off("message", receiveMessage);
+    };
+  }, [messages]);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(message)
     socket.emit('message',message)
   }
+ 
   return (
     <div className="App">
       <header className="App-header">
