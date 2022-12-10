@@ -59,16 +59,14 @@ function App() {
       <div className="App">
         <header className="App-header">
           <div>
-            <div className="card">       
-            <img src={logo} alt="logo"width="50%"/>   
+            <div className="card items-center justify-center">       
+            <img src={logo} alt="logo" width="50%"/>   
               <div className="container">
-                
-               
                 <form className ="form" onSubmit={handleSubmit}>
                   <h4>Ingrese su nombre</h4>
-                  <input type='text' onChange={
+                  <div><input className="input" type="text" onChange={
                     e => setUsername(e.target.value)
-                  }/>
+                  }/></div>
                   <button>Ingresar</button>
                 </form>
               </div>
