@@ -12,8 +12,7 @@ export class Producto extends Model{
             socket: null,
         }
     }
-    
-    get toHMTL(){
+    toHMTL(username){
         return(
             <div className="app">
                 <ul className="horizontal">
@@ -24,11 +23,14 @@ export class Producto extends Model{
                     <li><b>Valor actual:</b>{this.actual_price}</li>
                     <li>|</li>
                     <li><button  onClick={()=>{
-                        this.socket.emit()
+                        console.log(this.id)
+                        this.socket.emit('joinAuction',this.id)
                     }}>Entrar</button>
                     </li>
                 </ul>
             </div>
         );
     }
+    
+ 
 }
