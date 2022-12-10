@@ -7,19 +7,15 @@ import { Producto } from '../models/producto.model'
 const socket = io('http://localhost:4000');
 
 function App() {
-  const [message, setMessage] = useState('')
+  const [username, setUsername] = useState('')
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    const receiveMessage = (message) => {
-      setMessages([message, ...messages]);
-    };
     socket.on('products',function changeView(res){
-      
-      console.log(res)
       let data = []
       let root = ReactDOM.createRoot(document.getElementById('root'))
       res.forEach(e => {
       var p = new Producto({
+          id: e.id,
           price: e.price,
           name: e.name,
           state: e.state,
@@ -27,7 +23,7 @@ function App() {
           actual_price: e.actual_price,
           socket: socket
         })
-      data.push(p.toHMTL)
+      data.push(p.toHMTL())
       });
       root.render(
         <div className="App">
@@ -36,7 +32,6 @@ function App() {
             <div className="card">       
                 {data}
             </div>
-  
           </div>
         </header>
       </div>
@@ -45,17 +40,18 @@ function App() {
       
       
     );
-    socket.on("message", receiveMessage);
+    socket.on('joinRoom',function changeView(data){
+
+    });
 
     return () => {
-      socket.off("message", receiveMessage);
+      socket.off("discconect");
     };
   }, [messages]);
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(message)
-    socket.emit('message',message)
+    socket.emit('username',username)
   
   }
   
@@ -71,7 +67,7 @@ function App() {
                 <form className ="form" onSubmit={handleSubmit}>
                   <h4>Ingrese su nombre</h4>
                   <input type='text' onChange={
-                    e => setMessage(e.target.value)
+                    e => setUsername(e.target.value)
                   }/>
                   <button>Ingresar</button>
                 </form>

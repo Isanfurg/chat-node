@@ -7,9 +7,13 @@ import mariadb from 'mariadb';
 
 import {PORT} from './config.js';
 import { time } from 'console';
-
+import {Producto} from './models/producto.model.js';
+import {Auction } from './models/auction.model.js';
+import { Buyer } from './models/Buyer.model.js';
+var rooms = []
+var connected = []
 async function asyncConnection() {
-       
+    
     const conn = mariadb.createConnection({
         host:'4.227.201.55',
         user:'backend',
@@ -30,6 +34,21 @@ async function saveConnection(userName){
     )
 }
 const conn = await asyncConnection();
+let products = await getProducts();
+products.forEach(e => {
+    var p = new Producto({
+        id: e.id,
+        price: e.price,
+        actual_price: e.actual_price,
+        state: e.state,
+        name: e.name,
+        url: e.url,
+    })
+    var room = new Auction({
+        product: p,
+    })
+    rooms.push(room)
+});
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server,{
@@ -39,13 +58,31 @@ const io = new Server(server,{
 });
 
 io.on('connection',(socket)=>{
-        
-        socket.on('message', async (data) => {
-            await saveConnection(data);
-            var res = await getProducts();
-            socket.emit('products',res);
-            console.log(socket.id,res);
+    var buyer = null
+    socket.on('username', async (data) => {
+        await saveConnection(data);
+        var res = await getProducts();
+        socket.emit('products',res);
+        buyer=new Buyer({
+            id: socket.id,
+            name: data
         })
+    })
+    socket.on('joinAuction', async (data) => {
+        console.log(buyer)
+        rooms.forEach(room => {
+            if(room.product.id === data){
+                console.log(buyer.name + " se unio a la puja por " + room.product.name)
+                room.joinRoom(buyer)
+                socket.emit("joinRoom",room);
+            }
+        })
+    })
+    socket.on("disconnect", (reason) => {
+
+        console.log(reason);
+        });
+
     }
 )
 
