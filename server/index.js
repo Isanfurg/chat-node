@@ -43,7 +43,7 @@ io.on('connection',(socket)=>{
         socket.on('message', async (data) => {
             await saveConnection(data);
             var res = await getProducts();
-            socket.emit(res);
+            socket.emit('products',res);
             console.log(socket.id,res);
         })
     }
