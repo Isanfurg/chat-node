@@ -23,7 +23,8 @@ const darkTheme = createTheme({
 
 
 export function SelectedProduct(props,socket) {
- 
+  console.log(props)
+  console.log(socket)
   var amount = 0
   if(props.product.actual_price===0){
     props.product.actual_price=props.product.price
