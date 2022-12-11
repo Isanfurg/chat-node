@@ -112,6 +112,12 @@ io.on('connection',(socket)=>{
             }
         })
     })
+
+    
+    socket.on('puja', async (puja) => {
+        console.log(puja);
+    })
+
     socket.on("disconnect", (reason) => {
             if(buyer.id!==""){
                 connected = connected.filter((item)=>item.id!== buyer.id)
