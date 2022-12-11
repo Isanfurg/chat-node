@@ -44,6 +44,7 @@ const io = new Server(server,{
         origin: '*'
     }
 });
+
 products.forEach(e => {
     var p = new Producto({
         id: e.id,
@@ -66,7 +67,8 @@ io.on('connection',(socket)=>{
         await saveConnection(data);
         var res = await getProducts();
       
-         socket.emit('products',res); buyer=new Buyer({
+        socket.emit('products',res); 
+        buyer=new Buyer({
             id: socket.id,
             name: data
         })
@@ -82,8 +84,6 @@ io.on('connection',(socket)=>{
                     room.socket = socket;
                 }
                 room.joinRoom(buyer)
-                
-                
                 socket.emit("joinRoom",{
                     product:room.product,
                     inRoom:room.inRoom
@@ -94,7 +94,24 @@ io.on('connection',(socket)=>{
             }
         })
     })
-    
+   
+    socket.on('leftRoom', async (data) => {
+        console.log(buyer)
+        rooms.forEach(async room => {
+            if(room.product.id === data){
+                console.log(buyer.name + " abandono la puja por " + room.product.name)
+                if(room.socket===""){
+                    room.socket = socket;
+                }
+                room.leaveRoom(buyer)
+                var res = await getProducts()
+                socket.emit('products',res)
+                room.inRoom.forEach(e => {
+                    io.to(e.id).emit("userLeftRoom",buyer.name)
+                });
+            }
+        })
+    })
     socket.on("disconnect", (reason) => {
             if(buyer.id!==""){
                 connected = connected.filter((item)=>item.id!== buyer.id)

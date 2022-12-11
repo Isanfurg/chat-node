@@ -5,12 +5,13 @@ import {useEffect, useState} from 'react'
 import logo from './img/logo.png'; // with import
 import {SelectedProduct} from './SelectedProduct';
 import {Products} from './Products';
+
 const socket = io('http://localhost:4000');
 
 function App() {
   const [username, setUsername] = useState('')
   const [messages, setMessages] = useState([]);
-
+  
   useEffect(() => {
     
     socket.on('products', function changeView(data){
@@ -26,6 +27,13 @@ function App() {
     });
     socket.on("userJoinRoom", async (data)=>{
       console.log(data);
+      const newDiv = document.createElement("p");
+
+      // and give it some content
+      const newContent = document.createTextNode("Join the room "+data);
+      newDiv.appendChild(newContent)
+      document.getElementById("Messages").appendChild(newDiv)
+      
     })
     return () => {
       socket.off("discconect");

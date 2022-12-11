@@ -4,6 +4,7 @@ import {Container, Grid,Paper,Button,FormControl, Input,InputAdornment} from '@m
 import { styled } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import SavingIcon from '@mui/icons-material/Savings';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -23,9 +24,10 @@ const darkTheme = createTheme({
 
 export function SelectedProduct(props,socket) {
  
-  const values = React.useState<[]>({
-    amount: 0
-  })
+  var amount = 0
+  if(props.product.actual_price===0){
+    props.product.actual_price=props.product.price
+  }
   return (
     <ThemeProvider theme={darkTheme}>
     <Container maxWidth="xxl">
@@ -36,26 +38,36 @@ export function SelectedProduct(props,socket) {
           <Grid item xs={12}>
            
           </Grid>
-          <Grid item xs={8}>
-            <Item  sx={{ height: '100%' }} className='Messages'>Messages</Item>
+          <Grid item alignItems="center" xs={8}>
+            <Item id='Messages' sx={{ height: '100%' }} >
+              
+              </Item>
           </Grid>
           <Grid item xs={4}>
             <Item sx={{ height: '100%' }} >
+              <Button size="small" variant="contained" onClick={()=>{
+                    socket.emit('leftRoom',props.product.id)
+                  }} endIcon={<ArrowBackIcon />}>
+                    Volver
+                  </Button>
              <img
                 src={props.product.url}
                 alt="Producto"
                 loading="lazy"
-                width={'100%'}
+                width={'200px'}
+                
               />
+              <Item>Valor actual: {props.product.actual_price}</Item>
                <FormControl width={'70%'} sx={{ m: 1 }}  margin="normal" variant="standard">
                   <Input
                     id="standard-adornment-amount"
-                    value={values.amount}
+                    value={amount}
                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                   />
-                  <Button size="small" variant="contained" endIcon={<SavingIcon />}>
+                  <Button size="small" variant="contained" onClick={console.log(amount)} endIcon={<SavingIcon />}>
                     Pujar
                   </Button>
+                  
             </FormControl>
                
             </Item>

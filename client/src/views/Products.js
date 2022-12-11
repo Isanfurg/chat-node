@@ -35,6 +35,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   export function Products(props, socket){
     const rows = []
       props.forEach(e => {
+      if (e.actual_price ===0) e.actual_price = e.price
       var p = new Producto({
           id: e.id,
           price: e.price,
@@ -46,32 +47,45 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         })
       rows.push(p)  
     });
+    
     return (
         <div className="App">
         <header className="App-header">
           <div>
             <TableContainer component={Paper} >
-              <Table sx={{ minWidth: 650 }} aria-label="customized table">
+              <Table sx={{ minWidth: 800 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Objeto</StyledTableCell>
+                    <StyledTableCell>Nombre</StyledTableCell>
+                    <StyledTableCell>Imagen</StyledTableCell>
                     <StyledTableCell align="right">Valor Inicial</StyledTableCell>
                     <StyledTableCell align="right">Valor Actual</StyledTableCell>
+                    <StyledTableCell align="right">Estado</StyledTableCell>
                     <StyledTableCell align="right"></StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <StyledTableRow
-                      key={row.name}
+                      key={row.state}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                       <StyledTableCell component="th" scope="row">
                         {row.name}
                       </StyledTableCell>
+                      <StyledTableCell align="center" component="th" scope="row">
+                        <img
+                          src={row.url}
+                          alt="Producto"
+                          loading="lazy"
+                          height={'50px'}
+                          
+                        />
+                      </StyledTableCell>
                       <StyledTableCell align="right">{row.price}</StyledTableCell>
                       <StyledTableCell align="right">{row.actual_price}</StyledTableCell>
+                      <StyledTableCell align="right">{row.state}</StyledTableCell>
                       <StyledTableCell align="right">
-                        <Button variant="contained" onClick={()=>{
+                        <Button size="small" variant="outlined" disabled={row.state !== "EN SUBASTA"}onClick={()=>{
                           console.log(row.id)
                           socket.emit('joinAuction',row.id)
                       }}>Entrar</Button>
