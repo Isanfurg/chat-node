@@ -28,12 +28,21 @@ function App() {
     socket.on("userJoinRoom", async (data)=>{
       console.log(data);
       const newDiv = document.createElement("p");
-
+      newDiv.style.cssText = 'box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin: 10px;';
       // and give it some content
       const newContent = document.createTextNode("Join the room "+data);
       newDiv.appendChild(newContent)
       document.getElementById("Messages").appendChild(newDiv)
       
+    });
+    socket.on('nuevaPuja', async (data)=>{
+      console.log(data);
+      const newDiv = document.createElement("p");
+      newDiv.style.cssText = 'box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin: 10px;';
+      // and give it some content
+      const newContent = document.createTextNode(data.user+": "+data.monto);
+      newDiv.appendChild(newContent)
+      document.getElementById("Messages").appendChild(newDiv)
     })
     socket.on("userLeftRoom", async (data)=>{
       const newDiv = document.createElement("p");

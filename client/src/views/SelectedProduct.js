@@ -23,7 +23,8 @@ const darkTheme = createTheme({
 
 
 export function SelectedProduct(props,socket) {
- 
+  console.log(props)
+  console.log(socket)
   var amount = 0
   if(props.product.actual_price===0){
     props.product.actual_price=props.product.price
@@ -58,13 +59,14 @@ export function SelectedProduct(props,socket) {
                 
               />
               <Item>Valor actual: {props.product.actual_price}</Item>
-               <FormControl width={'70%'} sx={{ m: 1 }}  margin="normal" variant="standard">
+               <FormControl>
                   <Input
                     id="standard-adornment-amount"
-                    value={amount}
+                    defaultValue={props.product.actual_price}
+                    onChange = {e => amount = e.target.value}
                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                   />
-                  <Button size="small" variant="contained" onClick={console.log(amount)} endIcon={<SavingIcon />}>
+                  <Button size="small" variant="contained" onClick={() => {socket.emit('puja',amount)}} endIcon={<SavingIcon />}>
                     Pujar
                   </Button>
                   

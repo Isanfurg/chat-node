@@ -112,6 +112,20 @@ io.on('connection',(socket)=>{
             }
         })
     })
+
+    
+    socket.on('puja', async (puja) => {
+        rooms.forEach(room => {
+            room.inRoom.forEach(e => {
+                io.to(e.id).emit("nuevaPuja",{
+                    user: buyer.name,
+                    monto: puja
+                })
+            });
+        })
+        console.log(puja);
+    })
+
     socket.on("disconnect", (reason) => {
             if(buyer.id!==""){
                 connected = connected.filter((item)=>item.id!== buyer.id)
