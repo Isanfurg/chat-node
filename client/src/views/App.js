@@ -47,7 +47,9 @@ function App() {
       let root = ReactDOM.createRoot(document.getElementById('root'))
       root.render(SelectedProduct(data,socket))
     });
-
+    socket.on("userJoinRoom", async (data)=>{
+      console.log(data);
+    })
     return () => {
       socket.off("discconect");
     };

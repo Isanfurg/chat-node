@@ -4,16 +4,18 @@ export class Auction extends Model{
     get defaults(){
         return{
             product: null,
-            inRoom: [],
+            inRoom: [],            
         }
     }
-    joinRoom(buyer){(
+    joinRoom(buyer,sockets){
+      
+      
         this.inRoom.push(buyer)
-    )}
-    leaveRoom(id){
-        this.inRoom.filter((item)=> {
-            item.name !== id
-        })
+        
+    }
+    leaveRoom(buyer,sockets){
+        this.inRoom = this.inRoom.filter((item)=> item.id !== buyer.id)
+       
         
     }
 

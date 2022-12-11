@@ -9,7 +9,7 @@ export class Producto extends Model{
             price: "",
             actual_price: "",
             url: "",
-            socket: null,
+            buyer: ""
         }
     }
     

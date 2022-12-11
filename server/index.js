@@ -12,6 +12,7 @@ import {Auction } from './models/auction.model.js';
 import { Buyer } from './models/Buyer.model.js';
 var rooms = []
 var connected = []
+
 async function asyncConnection() {
     
     const conn = mariadb.createConnection({
@@ -35,6 +36,14 @@ async function saveConnection(userName){
 }
 const conn = await asyncConnection();
 let products = await getProducts();
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server,{
+    cors:{
+        origin: '*'
+    }
+});
 products.forEach(e => {
     var p = new Producto({
         id: e.id,
@@ -49,39 +58,53 @@ products.forEach(e => {
     })
     rooms.push(room)
 });
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server,{
-    cors:{
-        origin: '*'
-    }
-});
-
+var sockets =[]
 io.on('connection',(socket)=>{
-    var buyer = null
+    sockets.push(socket)
+    var buyer = new Buyer()
     socket.on('username', async (data) => {
         await saveConnection(data);
         var res = await getProducts();
-        socket.emit('products',res);
-        buyer=new Buyer({
+      
+         socket.emit('products',res); buyer=new Buyer({
             id: socket.id,
             name: data
         })
+        connected.push(buyer);
+        console.log("Users connected: "+connected.length)
     })
     socket.on('joinAuction', async (data) => {
         console.log(buyer)
         rooms.forEach(room => {
             if(room.product.id === data){
                 console.log(buyer.name + " se unio a la puja por " + room.product.name)
+                if(room.socket===""){
+                    room.socket = socket;
+                }
                 room.joinRoom(buyer)
-                socket.emit("joinRoom",room);
-                console.log(room)
+                
+                
+                socket.emit("joinRoom",{
+                    product:room.product,
+                    inRoom:room.inRoom
+                });
+                room.inRoom.forEach(e => {
+                    io.to(e.id).emit("userJoinRoom",buyer.name)
+                });
             }
         })
     })
+    
     socket.on("disconnect", (reason) => {
-
-        console.log(reason);
+            if(buyer.id!==""){
+                connected = connected.filter((item)=>item.id!== buyer.id)
+                sockets = sockets.filter((item)=>item.id!== buyer.id)
+            }
+            rooms.forEach(room =>{
+                room.leaveRoom(buyer,sockets)
+            })
+ 
+            console.log(buyer.name +" abandono el servidor");
         });
 
     }
