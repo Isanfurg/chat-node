@@ -3,16 +3,13 @@ import { Buyer } from "./Buyer.model.js";
 export class Auction extends Model{
     get defaults(){
         return{
-            Product: null,
+            product: null,
             inRoom: [],
         }
     }
-    joinRoom(name,id){(
-        this.inRoom.push(new Buyer({
-            id: id,
-            name: name
-        })))
-    }
+    joinRoom(buyer){(
+        this.inRoom.push(buyer)
+    )}
     leaveRoom(id){
         this.inRoom.filter((item)=> {
             item.name !== id

@@ -4,6 +4,8 @@ import io from 'socket.io-client';
 import {useEffect, useState} from 'react'
 import logo from './img/logo.png'; // with import
 import { Producto } from '../models/producto.model'
+import {SelectedProduct} from './SelectedProduct';
+
 const socket = io('http://localhost:4000');
 
 function App() {
@@ -41,7 +43,9 @@ function App() {
       
     );
     socket.on('joinRoom',function changeView(data){
-
+      console.log(data)
+      let root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(SelectedProduct(data,socket))
     });
 
     return () => {

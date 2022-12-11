@@ -75,6 +75,7 @@ io.on('connection',(socket)=>{
                 console.log(buyer.name + " se unio a la puja por " + room.product.name)
                 room.joinRoom(buyer)
                 socket.emit("joinRoom",room);
+                console.log(room)
             }
         })
     })
