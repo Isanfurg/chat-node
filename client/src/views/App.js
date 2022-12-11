@@ -35,6 +35,15 @@ function App() {
       document.getElementById("Messages").appendChild(newDiv)
       
     })
+    socket.on("userLeftRoom", async (data)=>{
+      const newDiv = document.createElement("p");
+
+      // and give it some content
+      const newContent = document.createTextNode (data+" abandono la puja");
+      newDiv.appendChild(newContent)
+      document.getElementById("Messages").appendChild(newDiv)
+      
+    })
     return () => {
       socket.off("discconect");
     };

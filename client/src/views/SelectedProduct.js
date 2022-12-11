@@ -29,8 +29,7 @@ export function SelectedProduct(props,socket) {
     props.product.actual_price=props.product.price
   }
   return (
-    <ThemeProvider theme={darkTheme}>
-    <Container maxWidth="xxl">
+    <Container  maxWidth={false}>
         {getHeader({
             title: "Sala de subasta",
         })}
@@ -74,6 +73,5 @@ export function SelectedProduct(props,socket) {
           </Grid>
         </Grid>
     </Container>
-    </ThemeProvider>
   );
 }

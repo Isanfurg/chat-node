@@ -49,9 +49,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     });
     
     return (
-        <div className="App">
-        <header className="App-header">
-          <div>
+  
             <TableContainer component={Paper} >
               <Table sx={{ minWidth: 800 }} aria-label="customized table">
                 <TableHead>
@@ -95,8 +93,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>
-        </header>
-      </div>
+
     );    
   }
