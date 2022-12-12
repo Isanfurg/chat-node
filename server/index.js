@@ -31,20 +31,25 @@ async function getProducts(){
 }
 async function addProd(data,id){
     let res = await conn.query(
-        "INSERT INTO producto (id,name,price,actual_price,state,url) VALUES ('"+id+"','"+data.name+"','"+data.price+"','"+0+"','"+data.state+"','"+data.url+"');"
+        "INSERT INTO producto (id,name,price,actual_price,state,url,buyer) VALUES ('"+id+"','"+data.name+"','"+data.price+"','"+0+"','"+data.state+"','"+data.url+"');"
     )
     console.log(res)
 }
-async function updateProduct(newPrice,id){
+async function updateProduct(newPrice,id,name){
     let res = await conn.query(
-        "UPDATE producto SET price = "+newPrice+", actual_price = "+newPrice+" WHERE id = "+id+";"
+        "UPDATE producto SET price = "+newPrice+", actual_price = "+newPrice+", buyer = '"+name+"' WHERE id = "+id+";"
     )
-    console.log(res)
 }
 async function saveConnection(userName){
     let res = await conn.query(
         "INSERT INTO connected (username,date) VALUES ('"+userName+"','"+ (new Date).toString().slice(0,24) +"');"
     )
+}
+async function sellProduct(id){
+    let res = await conn.query(
+        "Update producto set state = "+'"SUBASTADO"'+" where id = "+id+";"
+    )
+    console.log(res)
 }
 const conn = await asyncConnection();
 let products = await getProducts();
@@ -129,12 +134,11 @@ io.on('connection',(socket)=>{
 
     
     socket.on('puja', async (data) => {
-        console.log(data.price > data.actual_price);
         var res = await getProducts()
         res.forEach(product => {
             if(product.id === data.id){
                 if(data.price > product.price){
-                    updateProduct(data.price,data.id)
+                    updateProduct(data.price,data.id,buyer.name)
                     rooms.forEach(room => {
                         room.inRoom.forEach(e => {
                             io.to(e.id).emit("nuevaPuja",{
@@ -163,6 +167,16 @@ io.on('connection',(socket)=>{
                 io.to(e.id).emit("alert",data)
             });
         })
+    })
+
+    socket.on('alertPuja', async (data) => {
+        console.log(data)
+        rooms.forEach(room => {
+            room.inRoom.forEach(e => {
+                io.to(e.id).emit("endPuja",data)
+            });
+        })
+        sellProduct(data)
     })
 
     socket.on("disconnect", (reason) => {

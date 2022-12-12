@@ -70,12 +70,14 @@ export function SelectedProduct(props,socket) {
                   
             </FormControl>
                 <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={() => {
-                    console.log(message)
                     socket.emit('sendMsg', message)
                   }} endIcon={<SavingIcon />}>
                     Enviar Mensaje
                   </Button>
-                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained"  endIcon={<SavingIcon />}>
+                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={() => {
+                    console.log(props.product.id)
+                    socket.emit('alertPuja',props.product.id)
+                  }} endIcon={<SavingIcon />}>
                     Terminar Puja
                   </Button>
                
