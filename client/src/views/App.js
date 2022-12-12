@@ -28,22 +28,39 @@ function App() {
     socket.on("userJoinRoom", async (data)=>{
       console.log(data);
       const newDiv = document.createElement("p");
-      newDiv.style.cssText = 'box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin: 10px;';
+      
       // and give it some content
-      const newContent = document.createTextNode("Join the room "+data);
+      const newContent = document.createTextNode("** El usuario " +data  +" se unio a la puja **");
       newDiv.appendChild(newContent)
       document.getElementById("Messages").appendChild(newDiv)
       
     });
-    socket.on('nuevaPuja', async (data)=>{
+    socket.on("userLeftRoom", async (data)=>{
       console.log(data);
       const newDiv = document.createElement("p");
-      newDiv.style.cssText = 'box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin: 10px;';
       // and give it some content
-      const newContent = document.createTextNode(data.user+": "+data.monto);
+      const newContent = document.createTextNode("** El usuario " +data  +" abandono la puja **");
       newDiv.appendChild(newContent)
       document.getElementById("Messages").appendChild(newDiv)
+      
+    });
+
+    socket.on('nuevaPuja', async (data)=>{
+      console.log(data);
+      const newDiv = document.createElement("div");
+      newDiv.style.cssText = '  position: relative;padding: 10px 20px;color: white;background: #0B93F6;border-radius: 25px;float: right;font-weight: bold';
+      // and give it some content
+      const newContent = document.createTextNode("El usuario " + data.user+" realizo una puja por "+data.monto);
+      newDiv.appendChild(newContent)
+      document.getElementById("Messages").appendChild(newDiv)
+      let price = document.getElementById("Price")
+      price.removeChild(price.lastElementChild)
+      const newPrice = document.createElement("p");
+      let news = document.createTextNode( "Valor actual: "+data.monto);
+      newPrice.appendChild(news)
+      price.appendChild(newPrice)
     })
+    socket.on('endPuja',)
     return () => {
       socket.off("discconect");
     };

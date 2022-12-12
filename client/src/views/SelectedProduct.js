@@ -58,7 +58,7 @@ export function SelectedProduct(props,socket) {
                 width={'200px'}
                 
               />
-              <Item></Item>
+              <Item id="Price"><p>Valor actual: {props.product.actual_price}</p></Item> 
                <FormControl>
                   <Input
                     id="standard-adornment-amount"
