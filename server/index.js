@@ -29,6 +29,12 @@ async function getProducts(){
     delete res.meta;
     return res;
 }
+async function addProd(data,id){
+    let res = await conn.query(
+        "INSERT INTO producto (id,name,price,actual_price,state,url) VALUES ('"+id+"','"+data.name+"','"+data.price+"','"+0+"','"+data.state+"','"+data.url+"');"
+    )
+    console.log(res)
+}
 async function updateProduct(newPrice,id){
     let res = await conn.query(
         "UPDATE producto SET price = "+newPrice+", actual_price = "+newPrice+" WHERE id = "+id+";"
@@ -140,6 +146,12 @@ io.on('connection',(socket)=>{
                 }
             }
         })
+    })
+
+    socket.on('addProduct', async (data) => {
+        var res = await getProducts()
+        console.log(res);
+        await addProd(data,(res.length+1));
     })
 
     socket.on("disconnect", (reason) => {
