@@ -5,7 +5,7 @@ import { AppBar,Toolbar,IconButton,Typography ,Button} from '@mui/material';
 export function getHeader(props){
     var show = false 
     console.log("Agregar producto" === props.title)
-    if (props.title==="Agregar producto"){
+    if (props.title==="Agregar producto" || props.title==="Sala de subasta"){
         show = true
     }
     console.log(!show)
@@ -19,6 +19,9 @@ export function getHeader(props){
                     let root = ReactDOM.createRoot(document.getElementById('root'))
                     root.render(AddProduct(props.socket))
                 }}> Agregar Producto</Button>
+                <Button disabled={show} onClick={()=>{
+                   props.socket.emit("getLogs")
+                }}> Logs</Button>
                 <Button disabled={!show} onClick={()=>{
                    props.socket.emit('username',"MARTILLERO")
                 }}> Volver</Button>

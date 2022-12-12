@@ -7,6 +7,7 @@ import {SelectedProduct} from './SelectedProduct';
 import {Products} from './Products';
 import {Box,CircularProgress} from '@mui/material'
 import './css/App.css';
+import { logs } from './logs';
 const socket = io('http://localhost:4000');
 
 
@@ -19,6 +20,11 @@ function App() {
       console.log(data)
       let root = ReactDOM.createRoot(document.getElementById('root'))
       root.render(Products(data,socket))
+    });
+    socket.on('logs', function changeView(data){
+      console.log(data)
+      let root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(logs(data,socket))
     });
 
     socket.on('joinRoom',function changeView(data){
