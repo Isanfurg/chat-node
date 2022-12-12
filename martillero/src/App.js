@@ -29,18 +29,18 @@ function App() {
     socket.on("userJoinRoom", async (data)=>{
       console.log(data);
       const newDiv = document.createElement("p");
-
+      
       // and give it some content
-      const newContent = document.createTextNode("Join the room "+data);
+      const newContent = document.createTextNode("** El usuario " +data  +" se unio a la puja **");
       newDiv.appendChild(newContent)
       document.getElementById("Messages").appendChild(newDiv)
       
     })
     socket.on("userLeftRoom", async (data)=>{
+      console.log(data);
       const newDiv = document.createElement("p");
-
       // and give it some content
-      const newContent = document.createTextNode (data+" abandono la puja");
+      const newContent = document.createTextNode("** El usuario " +data  +" abandono la puja **");
       newDiv.appendChild(newContent)
       document.getElementById("Messages").appendChild(newDiv)
       
