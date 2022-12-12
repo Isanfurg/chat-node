@@ -29,6 +29,12 @@ async function getProducts(){
     delete res.meta;
     return res;
 }
+async function updateProduct(newPrice,id){
+    let res = await conn.query(
+        "UPDATE producto SET price = "+newPrice+", actual_price = "+newPrice+" WHERE id = "+id+";"
+    )
+    console.log(res)
+}
 async function saveConnection(userName){
     let res = await conn.query(
         "INSERT INTO connected (username,date) VALUES ('"+userName+"','"+ (new Date).toString().slice(0,24) +"');"
@@ -114,16 +120,24 @@ io.on('connection',(socket)=>{
     })
 
     
-    socket.on('puja', async (puja) => {
-        rooms.forEach(room => {
-            room.inRoom.forEach(e => {
-                io.to(e.id).emit("nuevaPuja",{
-                    user: buyer.name,
-                    monto: puja
-                })
-            });
+    socket.on('puja', async (data) => {
+        console.log(data.price > data.actual_price);
+        var res = await getProducts()
+        res.forEach(product => {
+            if(product.id === data.id){
+                if(data.price > product.price){
+                    updateProduct(data.price,data.id)
+                    rooms.forEach(room => {
+                        room.inRoom.forEach(e => {
+                            io.to(e.id).emit("nuevaPuja",{
+                                user: buyer.name,
+                                monto: data.price
+                            })
+                        });
+                    })
+                }
+            }
         })
-        console.log(puja);
     })
 
     socket.on("disconnect", (reason) => {
