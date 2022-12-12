@@ -45,6 +45,17 @@ function App() {
       
     });
 
+    
+    socket.on("alert", async (data)=>{
+      console.log(data);
+      const newDiv = document.createElement("p");
+      // and give it some content
+      const newContent = document.createTextNode("** El martillero ha anunciado " +data+" **");
+      newDiv.appendChild(newContent)
+      document.getElementById("Messages").appendChild(newDiv)
+      
+    });
+
     socket.on('nuevaPuja', async (data)=>{
       console.log(data);
       const newDiv = document.createElement("div");

@@ -60,11 +60,12 @@ export function SelectedProduct(props,socket) {
               />
               <Item id="Price"><p>Valor actual: {props.product.actual_price}</p></Item> 
                <FormControl>
-                  <input
+                  <Input
                     sx={{  width: 300, margin: 4 }}
                     id="standard-adornment-amount"
                     onChange = {e => props.product.price = parseInt(e.target.value,10)}
                     type="text"
+                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
                   />
                   <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={() => {
                       console.log(props.product);
