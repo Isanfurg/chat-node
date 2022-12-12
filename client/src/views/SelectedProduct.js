@@ -46,7 +46,7 @@ export function SelectedProduct(props,socket) {
           </Grid>
           <Grid item xs={4}>
             <Item sx={{ height: '100%' }} >
-              <Button size="small" variant="contained" onClick={()=>{
+              <Button sx={{  width: 300, margin: 4 }}size="small" variant="contained" onClick={()=>{
                     socket.emit('leftRoom',props.product.id)
                   }} endIcon={<ArrowBackIcon />}>
                     Volver
@@ -55,18 +55,18 @@ export function SelectedProduct(props,socket) {
                 src={props.product.url}
                 alt="Producto"
                 loading="lazy"
-                width={'200px'}
+                width={300}
                 
               />
               <Item id="Price"><p>Valor actual: {props.product.actual_price}</p></Item> 
                <FormControl>
-                  <Input
+                  <input
+                    sx={{  width: 300, margin: 4 }}
                     id="standard-adornment-amount"
                     onChange = {e => props.product.price = parseInt(e.target.value,10)}
-                    type="number"
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    type="text"
                   />
-                  <Button size="small" variant="contained" onClick={() => {
+                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={() => {
                       console.log(props.product);
                       socket.emit('puja',props.product)
                     }} endIcon={<SavingIcon />}>
