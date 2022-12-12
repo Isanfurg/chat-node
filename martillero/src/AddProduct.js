@@ -67,7 +67,7 @@ export function AddProduct(socket) {
                   url: url
                 });
               }} endIcon={<SavingIcon />}>
-              Pujar
+              Añadir
             </Button>
                   
             </FormControl>
