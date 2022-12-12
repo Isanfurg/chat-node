@@ -45,10 +45,21 @@ function App() {
       
     });
 
+    
+    socket.on("alert", async (data)=>{
+      console.log(data);
+      const newDiv = document.createElement("p");
+      // and give it some content
+      const newContent = document.createTextNode("** El martillero ha anunciado " +data+" **");
+      newDiv.appendChild(newContent)
+      document.getElementById("Messages").appendChild(newDiv)
+      
+    });
+
     socket.on('nuevaPuja', async (data)=>{
       console.log(data);
-      const newDiv = document.createElement("div");
-      newDiv.style.cssText = '  position: relative;padding: 10px 20px;color: white;background: #0B93F6;border-radius: 25px;float: right;font-weight: bold';
+      const newDiv = document.createElement("p");
+      newDiv.style.cssText = '  width:100%; position: relative;padding: 10px 20px;color: white;background: #0B93F6;border-radius: 25px;float: right;font-weight: bold';
       // and give it some content
       const newContent = document.createTextNode("El usuario " + data.user+" realizo una puja por "+data.monto);
       newDiv.appendChild(newContent)
@@ -60,7 +71,9 @@ function App() {
       newPrice.appendChild(news)
       price.appendChild(newPrice)
     })
-    socket.on('endPuja',)
+    socket.on('endPuja', async (data)=>{
+      socket.emit('leftRoom',data)
+    })
     return () => {
       socket.off("discconect");
     };

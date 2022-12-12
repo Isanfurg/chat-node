@@ -26,7 +26,7 @@ const darkTheme = createTheme({
 
 export function SelectedProduct(props,socket) {
  
-  var amount = 0
+  var message = ""
   if(props.product.actual_price===0){
     props.product.actual_price=props.product.price
   }
@@ -66,15 +66,20 @@ export function SelectedProduct(props,socket) {
                   <Input
                     sx={{  width: 300, margin: 4 }}
                     id="standard-adornment-amount"
-                    value={amount}
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    onChange = {e => message = e.target.value}
                   />
                   
             </FormControl>
+                <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={() => {
+                    socket.emit('sendMsg', message)
+                  }} endIcon={<SavingIcon />}>
                 <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<SendIcon />}>
                     Enviar Mensaje
                   </Button>
-                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<HardwareIcon />}>
+                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={() => {
+                    console.log(props.product.id)
+                    socket.emit('alertPuja',props.product.id)
+                  }} endIcon={<SavingIcon />}>
                     Terminar Puja
                   </Button>
                
