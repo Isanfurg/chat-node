@@ -6,7 +6,7 @@ import logo from './img/logo.png'; // with import
 import {SelectedProduct} from './SelectedProduct';
 import {Products} from './Products';
 
-const socket = io('http://localhost:4000');
+var socket = io('34.27.233.242');
 
 function App() {
   const [username, setUsername] = useState('')
@@ -74,6 +74,22 @@ function App() {
     socket.on('endPuja', async (data)=>{
       socket.emit('leftRoom',data)
     })
+    socket.on("connect_error", (err) => {
+      let error = document.getElementById("ERROR")
+      
+      
+      const message = document.createElement("p");
+      let nm = document.createTextNode( "NO HAY COMUNICACION CON EL SERVIDOR");
+      message.style.cssText = 'color: red; font-size:12px';
+      message.appendChild(nm)
+      if(error.children.length>0){
+        error.removeChild(error.firstChild)
+      }
+      
+      error.appendChild(message)
+
+      console.log(`connect_error due to ${err.message}`);
+    });
     return () => {
       socket.off("discconect");
     };
@@ -100,6 +116,7 @@ function App() {
                     e => setUsername(e.target.value)
                   }/>
                   <button>Ingresar</button>
+                  <div id='ERROR'></div>
                 </form>
               </div>
             </div>

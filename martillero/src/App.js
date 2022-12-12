@@ -8,7 +8,7 @@ import {Products} from './Products';
 import {Box,CircularProgress} from '@mui/material'
 import './css/App.css';
 import { logs } from './logs';
-const socket = io('http://localhost:4000');
+var socket = io('http://localhost:4000');
 
 
 function App() {
