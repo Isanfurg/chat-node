@@ -58,11 +58,10 @@ export function SelectedProduct(props,socket) {
                 width={'200px'}
                 
               />
-              <Item></Item>
+              <Item id="Price"><p>Valor actual: {props.product.actual_price}</p></Item> 
                <FormControl>
                   <Input
                     id="standard-adornment-amount"
-                    defaultValue={props.product.price}
                     onChange = {e => props.product.price = parseInt(e.target.value,10)}
                     type="number"
                     startAdornment={<InputAdornment position="start">$</InputAdornment>}

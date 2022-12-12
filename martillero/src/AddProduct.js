@@ -59,7 +59,14 @@ export function AddProduct(socket) {
               onChange = {e => url = e.target.value}
               
             />
-            <Button sx={{ margin: 3}} size="large" variant="contained" onClick={() => {}} endIcon={<SavingIcon />}>
+            <Button sx={{ margin: 3}} size="large" variant="contained" onClick={() => {
+                socket.emit('addProduct',{
+                  name: name,
+                  price: price,
+                  state: state,
+                  url: url
+                });
+              }} endIcon={<SavingIcon />}>
               Pujar
             </Button>
                   
