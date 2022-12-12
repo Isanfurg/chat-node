@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ReactDOM from 'react-dom/client';
 import {getHeader} from './components/Header'
 import {Container, Grid,Paper,Button,FormControl, Input,InputAdornment} from '@mui/material'
 import { styled } from '@mui/material/styles';
@@ -33,6 +34,7 @@ export function SelectedProduct(props,socket) {
     <Container  maxWidth={false}>
         {getHeader({
             title: "Sala de subasta",
+            socket: socket
         })}
         <Grid container spacing={2}>
           <Grid item xs={12}>

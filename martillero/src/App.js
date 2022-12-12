@@ -6,7 +6,9 @@ import logo from './img/logo.png'; // with import
 import {SelectedProduct} from './SelectedProduct';
 import {Products} from './Products';
 import {Box,CircularProgress} from '@mui/material'
+import './css/App.css';
 const socket = io('http://localhost:4000');
+
 
 function App() {
 

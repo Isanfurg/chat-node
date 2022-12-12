@@ -78,7 +78,9 @@ io.on('connection',(socket)=>{
             id: socket.id,
             name: data
         })
-        connected.push(buyer);
+        if(buyer.name!=="MARTILLERO"){
+            connected.push(buyer);
+        }
         console.log("Users connected: "+connected.length)
     })
     socket.on('joinAuction', async (data) => {
