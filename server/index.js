@@ -152,6 +152,8 @@ io.on('connection',(socket)=>{
         var res = await getProducts()
         console.log(res);
         await addProd(data,(res.length+1));
+        var a = await getProducts();
+        socket.emit('products',a); 
     })
 
     socket.on("disconnect", (reason) => {
