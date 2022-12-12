@@ -61,7 +61,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       <ThemeProvider theme={darkTheme}>
     <Container  maxWidth={false}>
         {getHeader({
-          title: "Bienvenido Martillero!"
+          title: "Bienvenido Martillero!",
+          socket: socket
         })}
         <TableContainer component={Paper} >
           <Table sx={{ minWidth: 800 }} aria-label="customized table">

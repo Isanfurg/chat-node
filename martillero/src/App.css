@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.TextField{
+  margin: 5px;
+  padding: auto;
+
+}
