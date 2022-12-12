@@ -58,15 +58,19 @@ export function SelectedProduct(props,socket) {
                 width={'200px'}
                 
               />
-              <Item>Valor actual: {props.product.actual_price}</Item>
+              <Item></Item>
                <FormControl>
                   <Input
                     id="standard-adornment-amount"
-                    defaultValue={props.product.actual_price}
-                    onChange = {e => amount = e.target.value}
+                    defaultValue={props.product.price}
+                    onChange = {e => props.product.price = parseInt(e.target.value,10)}
+                    type="number"
                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                   />
-                  <Button size="small" variant="contained" onClick={() => {socket.emit('puja',amount)}} endIcon={<SavingIcon />}>
+                  <Button size="small" variant="contained" onClick={() => {
+                      console.log(props.product);
+                      socket.emit('puja',props.product)
+                    }} endIcon={<SavingIcon />}>
                     Pujar
                   </Button>
                   
