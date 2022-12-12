@@ -3,8 +3,7 @@ import {getHeader} from './components/Header'
 import {Container, Grid,Paper,Button,FormControl, Input,InputAdornment, TextField} from '@mui/material'
 import { styled } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import SavingIcon from '@mui/icons-material/Savings';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -66,7 +65,7 @@ export function AddProduct(socket) {
                   state: state,
                   url: url
                 });
-              }} endIcon={<SavingIcon />}>
+              }} endIcon={<AddBusinessIcon />}>
               Añadir
             </Button>
                   

@@ -4,8 +4,9 @@ import {getHeader} from './components/Header'
 import {Container, Grid,Paper,Button,FormControl, Input,InputAdornment} from '@mui/material'
 import { styled } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import SavingIcon from '@mui/icons-material/Savings';
+import SendIcon from '@mui/icons-material/Send';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import HardwareIcon from '@mui/icons-material/Hardware';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -70,10 +71,10 @@ export function SelectedProduct(props,socket) {
                   />
                   
             </FormControl>
-                <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<SavingIcon />}>
+                <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<SendIcon />}>
                     Enviar Mensaje
                   </Button>
-                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<SavingIcon />}>
+                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<HardwareIcon />}>
                     Terminar Puja
                   </Button>
                

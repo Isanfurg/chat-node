@@ -89,6 +89,13 @@ io.on('connection',(socket)=>{
         }
         console.log("Users connected: "+connected.length)
     })
+    socket.on('getLogs',async() => {
+        
+        var res = await getProducts();
+      
+        socket.emit('logs',res); 
+        
+    })
     socket.on('joinAuction', async (data) => {
         console.log(buyer)
         rooms.forEach(room => {
