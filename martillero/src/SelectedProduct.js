@@ -47,7 +47,7 @@ export function SelectedProduct(props,socket) {
           </Grid>
           <Grid item xs={4}>
             <Item sx={{ height: '100%' }} >
-              <Button size="small" variant="contained" onClick={()=>{
+              <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={()=>{
                     socket.emit('leftRoom',props.product.id)
                   }} endIcon={<ArrowBackIcon />}>
                     Volver
@@ -56,21 +56,26 @@ export function SelectedProduct(props,socket) {
                 src={props.product.url}
                 alt="Producto"
                 loading="lazy"
-                width={'200px'}
+                width={300}
+                
                 
               />
               <Item>Valor actual: {props.product.actual_price}</Item>
                <FormControl width={'70%'} sx={{ m: 1 }}  margin="normal" variant="standard">
                   <Input
+                    sx={{  width: 300, margin: 4 }}
                     id="standard-adornment-amount"
                     value={amount}
                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                   />
-                  <Button size="small" variant="contained" onClick={console.log(amount)} endIcon={<SavingIcon />}>
-                    Pujar
-                  </Button>
                   
             </FormControl>
+                <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<SavingIcon />}>
+                    Enviar Mensaje
+                  </Button>
+                  <Button sx={{  width: 300, margin: 4 }} size="small" variant="contained" onClick={console.log(amount)} endIcon={<SavingIcon />}>
+                    Terminar Puja
+                  </Button>
                
             </Item>
           </Grid>
